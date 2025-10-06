@@ -1,3 +1,4 @@
+<img width="839" height="588" alt="практика1диаграмма2" src="https://github.com/user-attachments/assets/b2ca0433-4cf5-48f0-9891-e6bd8750748a" />
 
 
 <img width="1135" height="974" alt="image" src="https://github.com/user-attachments/assets/c100f4ff-4409-4776-a06b-cbcdffc9f842" />
