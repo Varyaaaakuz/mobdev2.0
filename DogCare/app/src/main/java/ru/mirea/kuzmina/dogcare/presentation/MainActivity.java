@@ -1,52 +1,76 @@
 package ru.mirea.kuzmina.dogcare.presentation;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.SearchView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import ru.mirea.kuzmina.data.repository.BreedsRepositoryImpl;
+import ru.mirea.kuzmina.domain.models.DogBreed;
+import ru.mirea.kuzmina.domain.repository.BreedsRepository;
+import ru.mirea.kuzmina.dogcare.R;
+import ru.mirea.kuzmina.dogcare.presentation.adapters.BreedsAdapter;
+
 import java.util.List;
 
-import ru.mirea.kuzmina.dogcare.R;
-import ru.mirea.kuzmina.dogcare.data.repository.*;
-import ru.mirea.kuzmina.dogcare.domain.models.Dog;
-import ru.mirea.kuzmina.dogcare.domain.usecases.*;
+public class MainActivity extends AppCompatActivity implements BreedsAdapter.OnBreedClickListener {
 
-public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "DogCareApp";
+    private RecyclerView breedsRecyclerView;
+    private SearchView searchView;
+    private BreedsAdapter breedsAdapter;
+    private BreedsRepository breedsRepository;
+    private List<DogBreed> allBreeds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        testAllUseCases();
+        initViews();
+        setupRepository();
+        setupRecyclerView();
+        setupSearchView();
     }
 
-    private void testAllUseCases() {
-        // авторизация
-        AuthRepositoryImpl authRepo = new AuthRepositoryImpl(this);
-        LoginUseCase loginUseCase = new LoginUseCase(authRepo);
-        boolean loginResult = loginUseCase.execute("test@mail.com", "password");
-        Log.d(TAG, "Login result: " + loginResult);
-        // получение пород
-        BreedsRepositoryImpl breedsRepo = new BreedsRepositoryImpl();
-        GetBreedsUseCase getBreedsUseCase = new GetBreedsUseCase(breedsRepo);
-        List<Dog> breeds = getBreedsUseCase.execute();
-        for (Dog dog : breeds) {
-            Log.d(TAG, "Breed: " + dog.getName() + " - " + dog.getDescription());
-        }
-        // поиск
-        SearchBreedsUseCase searchUseCase = new SearchBreedsUseCase(breedsRepo);
-        List<Dog> searchResults = searchUseCase.execute("лабрадор");
-        Log.d(TAG, "Search found: " + searchResults.size() + " results");
-        //  определение породы
-        MLRepositoryImpl mlRepo = new MLRepositoryImpl();
-        IdentifyBreedUseCase identifyUseCase = new IdentifyBreedUseCase(mlRepo);
-        Dog identifiedBreed = identifyUseCase.execute(new byte[]{1, 2, 3}); // тестовые байты
-        Log.d(TAG, "Identified breed: " + identifiedBreed.getName());
-        // советы по уходу
-        CareRepositoryImpl careRepo = new CareRepositoryImpl();
-        GetCareAdviceUseCase careUseCase = new GetCareAdviceUseCase(careRepo);
-        String advice = careUseCase.execute(1);
-        Log.d(TAG, "Care advice: " + advice);
+    private void initViews() {
+        breedsRecyclerView = findViewById(R.id.breedsRecyclerView);
+        searchView = findViewById(R.id.searchView);
+    }
+
+    private void setupRepository() {
+        breedsRepository = new BreedsRepositoryImpl();
+        allBreeds = breedsRepository.getBreeds();
+    }
+
+    private void setupRecyclerView() {
+        breedsAdapter = new BreedsAdapter(allBreeds, this);
+        breedsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        breedsRecyclerView.setAdapter(breedsAdapter);
+    }
+
+    private void setupSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    breedsAdapter.updateBreeds(allBreeds);
+                } else {
+                    List<DogBreed> filteredBreeds = breedsRepository.searchBreeds(newText);
+                    breedsAdapter.updateBreeds(filteredBreeds);
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void onBreedClick(DogBreed breed) {
+
     }
 }

@@ -12,15 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DogCare"
         tools:targetApi="31">
+
+        <!-- LoginActivity - стартовая активность -->
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.auth.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- MainActivity - вторая активность -->
+        <activity
+            android:name=".presentation.MainActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
