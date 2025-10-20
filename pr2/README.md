@@ -21,3 +21,74 @@
 код приложения был перенесён в данные модули. Модуль domain содержит бизнес-логику и интерфейсы, а модуль data - реализации репозиториев и работу с данными.
 
 <img width="678" height="785" alt="image" src="https://github.com/user-attachments/assets/efa109e0-9c26-4d48-8eea-865eb43fe14a" />
+
+Была создана LoginActivity в presentation слое, которая использует use cases из domain модуля для выполнения операций входа и регистрации. Use cases работают через AuthRepository интерфейс, реализация которого находится в data модуле и интегрируется с Firebase Authentication. Такое разделение обеспечивает полную независимость слоев и возможность легкой замены механизма аутентификации.
+<img width="1498" height="913" alt="image" src="https://github.com/user-attachments/assets/3f40776a-ad45-41df-be9b-9eeefed70441" />
+<img width="383" height="785" alt="image" src="https://github.com/user-attachments/assets/68fa7855-b7b5-42ba-ad50-80ad4209634d" /><img width="368" height="795" alt="image" src="https://github.com/user-attachments/assets/5ab6be3c-1647-44e4-843c-50fce9ddb654" />
+<img width="1599" height="664" alt="image" src="https://github.com/user-attachments/assets/5f3d5d1a-2f5f-4815-8d7e-11b5282c1009" />
+
+В AuthRepositoryImpl были интегрированы три различных способа работы с данными: SharedPreferences для хранения простых пользовательских настроек, Room для сохранения структурированных данных в локальной базе данных и NetworkApi для организации работы с внешним API. Каждый способ обрабатывает данные независимо, что обеспечивает надежность и отказоустойчивость приложения.
+<img width="964" height="848" alt="image" src="https://github.com/user-attachments/assets/a947e5e1-021a-4922-95e2-c5d44c51dff3" />
+
+Были созданы доменные модели User и DogBreed, которые содержат только данные без бизнес-логики. Use cases инкапсулируют конкретные бизнес-сценарии приложения, такие как вход пользователя, получение списка пород и идентификация породы по фото. Каждый use case работает исключительно с domain-интерфейсами, что обеспечивает полную независимость от конкретных реализаций в data слое.
+
+<img width="1104" height="844" alt="image" src="https://github.com/user-attachments/assets/1e05379f-7c5d-40f2-97cb-3cef3b72825f" />
+
+Были настроены градиентные зависимости между модулями через файлы build.gradle.kts. Модуль app зависит от data и domain, что позволяет presentation слою использовать все возможности приложения. Модуль data зависит только от domain, обеспечивая направление зависимостей от низкоуровневых к высокоуровневым слоям. Такая конфигурация предотвращает циклические зависимости и соответствует принципам чистой архитектуры.
+
+Листинг build.gradle.kts для модуля app:
+
+plugins {
+    alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
+}
+
+android {
+    namespace = "ru.mirea.kuzmina.dogcare"
+    compileSdk = 36
+
+    defaultConfig {
+        applicationId = "ru.mirea.kuzmina.dogcare"
+        minSdk = 26
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    implementation(project(":data"))
+    implementation(project(":domain"))
+
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.activity)
+    implementation(libs.constraintlayout)
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-auth")
+    // Room dependency для app модуля
+    implementation("androidx.room:room-runtime:2.6.0")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    implementation("com.google.android.material:material:1.10.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+}
