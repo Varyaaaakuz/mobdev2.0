@@ -19,13 +19,12 @@
 Затем создали модуль domain как Java Library. Этот модуль не требует Android-специфичных компонентов. Все классы из domain пакета перенесли из app модуля в новый domain модуль. Модуль domain работает только со стандартной Java, без дополнительных зависимостей.
 
 <img width="563" height="765" alt="image" src="https://github.com/user-attachments/assets/4a8c373e-47b8-40d9-a356-e5ff57a69621" />
-<img width="1068" height="759" alt="image" src="https://github.com/user-attachments/assets/a6945d39-bfe4-4021-842c-8da03a828c4e" />
 
-<img width="1060" height="775" alt="image" src="https://github.com/user-attachments/assets/ee7eae1a-44de-494b-810f-7bef267f20fc" />
+В файл settings.gradle добавлены все созданные модули: app, data и domain. Проверена корректность структуры проекта - модуль app зависит от data и domain, data зависит от domain. Такая конфигурация обеспечивает правильное направление зависимостей в соответствии с принципами чистой архитектуры. Приложение работает. Результат представлен ниже. 
 
 <img width="437" height="857" alt="image" src="https://github.com/user-attachments/assets/18890f87-9c3c-4fb9-b176-af2f0f299d18" />
 <img width="427" height="842" alt="image" src="https://github.com/user-attachments/assets/efefc62b-981f-4def-8ce4-4dbd4a8ce1f9" />
-В файл settings.gradle добавлены все созданные модули: app, data и domain. Проверена корректность структуры проекта - модуль app зависит от data и domain, data зависит от domain. Такая конфигурация обеспечивает правильное направление зависимостей в соответствии с принципами чистой архитектуры.
+
 
 
 Был создан детальный прототип приложения в figma, включающий основные экраны: авторизацию, каталог пород, определение породы по фото и рекомендации по уходу. Прототип отражает пользовательские сценарии и визуальный дизайн приложения, что позволило четко спланировать разработку. Результат представлен ниже.
