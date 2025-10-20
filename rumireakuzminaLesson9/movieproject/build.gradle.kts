@@ -32,6 +32,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
     implementation(libs.appcompat)
     implementation(libs.material)

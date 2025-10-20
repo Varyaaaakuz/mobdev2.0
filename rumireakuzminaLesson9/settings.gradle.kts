@@ -19,6 +19,10 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ru.mirea.kuzmina.Lesson9"
+rootProject.name = "MovieProject"
 include(":app")
-include(":movieproject")
+include(":data")
+include(":domain")
+
+project(":data").projectDir = File("data")
+project(":domain").projectDir = File("domain")
