@@ -38,57 +38,16 @@
 
 Листинг build.gradle.kts для модуля app:
 
-plugins {
-    alias(libs.plugins.android.application)
-    id("com.google.gms.google-services")
-}
+<img width="900" height="895" alt="image" src="https://github.com/user-attachments/assets/b9b3d9e9-ce3c-4ee0-9629-9bd3c4bdd34a" />
 
-android {
-    namespace = "ru.mirea.kuzmina.dogcare"
-    compileSdk = 36
+Листинг build.gradle.kts для модуля data:
 
-    defaultConfig {
-        applicationId = "ru.mirea.kuzmina.dogcare"
-        minSdk = 26
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+<img width="807" height="855" alt="image" src="https://github.com/user-attachments/assets/2326dc62-b8ff-4354-b39a-ebebc7f01229" />
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
+Листинг build.gradle.kts для модуля domain:
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-}
+<img width="660" height="293" alt="image" src="https://github.com/user-attachments/assets/a63d99a8-e522-4d87-a32b-1ca0e77871f1" />
 
-dependencies {
-    implementation(project(":data"))
-    implementation(project(":domain"))
+В ходе работы реализована авторизация через Firebase, три способа работы с данными и основной функционал приложения. Применение модульного подхода позволило создать поддерживаемую и тестируемую архитектуру, соответствующую современным стандартам разработки Android-приложений. Разделение на модули data, domain и app обеспечило четкое разделение ответственности и возможность независимого развития каждого компонента системы.
 
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.activity)
-    implementation(libs.constraintlayout)
 
-    // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-    implementation("com.google.firebase:firebase-auth")
-    // Room dependency для app модуля
-    implementation("androidx.room:room-runtime:2.6.0")
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    implementation("com.google.android.material:material:1.10.0")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-}
