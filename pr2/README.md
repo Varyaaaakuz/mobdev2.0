@@ -10,10 +10,6 @@
 
 В репозитории были созданы методы-мапперы для преобразования моделей между data и domain слоями. Репозиторий теперь работает как роутер, который может комбинировать данные из разных источников. MovieStorage внедряется через конструктор, что обеспечивает слабую связанность компонентов.
 
-<img width="563" height="765" alt="image" src="https://github.com/user-attachments/assets/4a8c373e-47b8-40d9-a356-e5ff57a69621" />
-
-В репозитории были созданы методы-мапперы для преобразования моделей между data и domain слоями. Репозиторий теперь работает как роутер, который может комбинировать данные из разных источников. MovieStorage внедряется через конструктор, что обеспечивает слабую связанность компонентов.
-
 <img width="1087" height="904" alt="image" src="https://github.com/user-attachments/assets/3576c6ae-2460-4ca0-a183-8bca228da8eb" />
 
 В MainActivity создается экземпляр SharedPrefMovieStorage и передается в конструктор MovieRepositoryImpl. Это демонстрирует принцип dependency injection и обеспечивает легкую замену реализации хранилища. Приложение теперь использует чистую архитектуру с правильно разделенными слоями.
@@ -21,6 +17,8 @@
 Был создан новый модуль data как Android Library. В файле build.gradle этого модуля убрали лишние зависимости, так как слой data не работает с интерфейсом. Весь код из папки data переместили из основного модуля app в новый модуль.
 
 Затем создали модуль domain как Java Library. Этот модуль не требует Android-специфичных компонентов. Все классы из domain пакета перенесли из app модуля в новый domain модуль. Модуль domain работает только со стандартной Java, без дополнительных зависимостей.
+
+<img width="563" height="765" alt="image" src="https://github.com/user-attachments/assets/4a8c373e-47b8-40d9-a356-e5ff57a69621" />
 <img width="1068" height="759" alt="image" src="https://github.com/user-attachments/assets/a6945d39-bfe4-4021-842c-8da03a828c4e" />
 
 <img width="1060" height="775" alt="image" src="https://github.com/user-attachments/assets/ee7eae1a-44de-494b-810f-7bef267f20fc" />
