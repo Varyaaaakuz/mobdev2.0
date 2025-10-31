@@ -10,8 +10,11 @@
 
 <img width="1310" height="899" alt="image" src="https://github.com/user-attachments/assets/71c93647-8ae1-4f27-9417-10ff35bfffa7" />
 
+Приложение на эмуляторе было запущено и работает корректно. Можно ввести название фильма, нажать "Сохранить", а потом нажать "Отобразить" и увидеть сохраненный фильм. Результат представлен ниже.
 
 <img width="701" height="901" alt="image" src="https://github.com/user-attachments/assets/5ab9cd7d-adbd-4aeb-974c-67325e2f0d00" />
 <img width="707" height="902" alt="image" src="https://github.com/user-attachments/assets/cf6ca574-e657-41ba-8314-f58a03cfb68e" />
+
+При повороте экрана Activity пересоздается, но ViewModel остается той же самой. Это видно по логам - ViewModel создается только один раз при первом запуске, а при поворотах экрана создается только новая Activity.
 
 <img width="1403" height="321" alt="image" src="https://github.com/user-attachments/assets/19df1df8-8b65-42e4-8b30-88b58d2b1e12" />
