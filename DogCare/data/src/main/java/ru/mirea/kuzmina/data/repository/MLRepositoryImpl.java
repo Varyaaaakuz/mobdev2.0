@@ -7,7 +7,7 @@ public class MLRepositoryImpl implements MLRepository {
 
     @Override
     public Dog identifyBreed(byte[] imageData) {
-        // Заглушка для ML распознавания породы
-        return new Dog("1", "Labrador", "Labrador Retriever", "");
+        // Заглушка для ML
+        return new Dog("1", "Лабрадор", "Дружелюбная семейная собака", "", "Крупная", "Высокая активность");
     }
 }

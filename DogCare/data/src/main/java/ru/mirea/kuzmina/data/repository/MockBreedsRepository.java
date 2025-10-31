@@ -6,7 +6,7 @@ import ru.mirea.kuzmina.domain.repository.BreedsRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BreedsRepositoryImpl implements BreedsRepository {
+public class MockBreedsRepository implements BreedsRepository {
 
     @Override
     public List<Dog> getBreeds() throws Exception {

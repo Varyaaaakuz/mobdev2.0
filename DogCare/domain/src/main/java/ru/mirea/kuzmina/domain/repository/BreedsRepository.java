@@ -1,10 +1,8 @@
 package ru.mirea.kuzmina.domain.repository;
 
-import ru.mirea.kuzmina.domain.models.DogBreed;
+import ru.mirea.kuzmina.domain.models.Dog; // Используем Dog
 import java.util.List;
 
 public interface BreedsRepository {
-    List<DogBreed> getBreeds();
-    List<DogBreed> searchBreeds(String query);
-    DogBreed getBreedById(String id);
+    List<Dog> getBreeds() throws Exception;
 }

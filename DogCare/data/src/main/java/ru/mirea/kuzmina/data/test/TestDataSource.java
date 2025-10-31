@@ -8,9 +8,9 @@ public class TestDataSource {
 
     public List<Dog> getTestDogs() {
         return Arrays.asList(
-                new Dog("1", "Buddy", "Labrador Retriever", ""),
-                new Dog("2", "Max", "German Shepherd", ""),
-                new Dog("3", "Charlie", "Golden Retriever", "")
+                new Dog("1", "Buddy", "Labrador Retriever", "", "Large", "High activity"),
+                new Dog("2", "Max", "German Shepherd", "", "Large", "High activity"),
+                new Dog("3", "Charlie", "Golden Retriever", "", "Large", "High activity")
         );
     }
 }

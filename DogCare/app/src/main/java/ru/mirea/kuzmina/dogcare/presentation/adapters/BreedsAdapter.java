@@ -7,21 +7,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ru.mirea.kuzmina.domain.models.DogBreed;
+import ru.mirea.kuzmina.domain.models.Dog;
 import ru.mirea.kuzmina.dogcare.R;
 
 import java.util.List;
 
 public class BreedsAdapter extends RecyclerView.Adapter<BreedsAdapter.BreedViewHolder> {
 
-    private List<DogBreed> breeds;
-    private OnBreedClickListener listener;
+    private List<Dog> breeds;
+    private final OnBreedClickListener listener;
 
     public interface OnBreedClickListener {
-        void onBreedClick(DogBreed breed);
+        void onBreedClick(Dog breed);
     }
 
-    public BreedsAdapter(List<DogBreed> breeds, OnBreedClickListener listener) {
+    public BreedsAdapter(List<Dog> breeds, OnBreedClickListener listener) {
         this.breeds = breeds;
         this.listener = listener;
     }
@@ -36,17 +36,17 @@ public class BreedsAdapter extends RecyclerView.Adapter<BreedsAdapter.BreedViewH
 
     @Override
     public void onBindViewHolder(@NonNull BreedViewHolder holder, int position) {
-        DogBreed breed = breeds.get(position);
+        Dog breed = breeds.get(position);
         holder.bind(breed);
         holder.itemView.setOnClickListener(v -> listener.onBreedClick(breed));
     }
 
     @Override
     public int getItemCount() {
-        return breeds.size();
+        return breeds != null ? breeds.size() : 0;
     }
 
-    public void updateBreeds(List<DogBreed> newBreeds) {
+    public void updateBreeds(List<Dog> newBreeds) {
         this.breeds = newBreeds;
         notifyDataSetChanged();
     }
@@ -54,22 +54,22 @@ public class BreedsAdapter extends RecyclerView.Adapter<BreedsAdapter.BreedViewH
     static class BreedViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
         private TextView descriptionTextView;
-        private TextView sizeTextView;
-        private TextView activityTextView;
+        private TextView sizeActivityTextView;
 
         public BreedViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.breedName);
             descriptionTextView = itemView.findViewById(R.id.breedDescription);
-            sizeTextView = itemView.findViewById(R.id.breedSize);
-            activityTextView = itemView.findViewById(R.id.breedActivity);
+            sizeActivityTextView = itemView.findViewById(R.id.breedSizeActivity);
         }
 
-        public void bind(DogBreed breed) {
+        public void bind(Dog breed) {
             nameTextView.setText(breed.getName());
             descriptionTextView.setText(breed.getDescription());
-            sizeTextView.setText(breed.getSize());
-            activityTextView.setText(breed.getActivityLevel());
+
+            String sizeActivity = breed.getSize() + " | " + breed.getActivityLevel();
+            sizeActivityTextView.setText(sizeActivity);
         }
+
     }
 }

@@ -4,54 +4,43 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@drawable/item_background"
-    android:layout_margin="8dp">
+    android:background="#FFFFFF">
 
+    <!-- Название породы -->
     <TextView
         android:id="@+id/breedName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Название породы"
-        android:textSize="18sp"
+        android:text="Золотистый ретривер"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/black" />
+        android:textColor="#000000" />
 
+    <!-- Описание породы -->
     <TextView
         android:id="@+id/breedDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Описание породы"
+        android:text="Дружелюбная и умная порода, отличный компаньон для семьи"
         android:textSize="14sp"
-        android:textColor="@color/gray"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="4dp"
+        android:textColor="#666666" />
 
-    <LinearLayout
+    <!-- Размер и активность в одной строке с разделителем -->
+    <TextView
+        android:id="@+id/breedSizeActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        android:text="Крупная | Высокая активность"
+        android:textSize="12sp"
+        android:layout_marginTop="4dp"
+        android:textColor="#666666" />
 
-        <TextView
-            android:id="@+id/breedSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Размер"
-            android:textSize="12sp"
-            android:background="@color/light_blue"
-            android:padding="4dp"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/breedActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Активность"
-            android:textSize="12sp"
-            android:background="@color/light_green"
-            android:padding="4dp"
-            android:textColor="@color/white"
-            android:layout_marginStart="8dp" />
-
-    </LinearLayout>
+    <!-- Разделитель -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="#E0E0E0" />
 
 </LinearLayout>
