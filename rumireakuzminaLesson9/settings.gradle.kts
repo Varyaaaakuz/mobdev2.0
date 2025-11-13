@@ -26,3 +26,6 @@ include(":domain")
 
 project(":data").projectDir = File("data")
 project(":domain").projectDir = File("domain")
+include(":scrollviewapp")
+include(":listviewapp")
+include(":recyclerviewapp")
