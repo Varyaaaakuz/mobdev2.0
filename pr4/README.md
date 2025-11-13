@@ -7,7 +7,7 @@
 
 <img width="1498" height="907" alt="image" src="https://github.com/user-attachments/assets/3c150c50-1233-4dc6-8d1e-11b0de73c5c5" />
 
-Также был создан модуль RecyclerViewApp с использованием современного компонента RecyclerView, который пришел на смену ListView и GridView. Реализована трехкомпонентная архитектура: Adapter - наследник RecyclerView.Adapter, ViewHolder - наследник RecyclerView.ViewHolder и LayoutManager (LinearLayoutManager). В адаптере переопределены три обязательных метода: onCreateViewHolder() для создания новых представлений, onBindViewHolder() для привязки данных и getItemCount() для возврата количества элементов. Для отображения исторических событий создана модель данных HistoricalEvent, содержащая название события, описание, год и имя изображения.
+Также был создан модуль RecyclerViewApp с использованием современного компонента RecyclerView. Реализована трехкомпонентная архитектура: Adapter - наследник RecyclerView.Adapter, ViewHolder - наследник RecyclerView.ViewHolder и LayoutManager (LinearLayoutManager). В адаптере переопределены три обязательных метода: onCreateViewHolder() для создания новых представлений, onBindViewHolder() для привязки данных и getItemCount() для возврата количества элементов. Для отображения исторических событий создана модель данных HistoricalEvent, содержащая название события, описание, год и имя изображения.
 
 <img width="1366" height="922" alt="image" src="https://github.com/user-attachments/assets/29439071-3680-42c4-883b-365724b8ba77" />
 
