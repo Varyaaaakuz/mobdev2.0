@@ -21,7 +21,7 @@
 
 <img width="928" height="322" alt="image" src="https://github.com/user-attachments/assets/6306e4b8-2239-4201-9599-0a4fb5e9e464" />
 
-В MainActivity было настроено наблюдение за LiveData из упрощенного ViewModel. При изменении данных автоматически обновляется RecyclerView через адаптер. Упростил логику активности, убрав сложные обработчики и оставив только базовое наблюдение за данными.
+В MainActivity было настроено наблюдение за LiveData из упрощенного ViewModel. При изменении данных автоматически обновляется RecyclerView через адаптер. Была упрощена логика активности, исключив сложные обработчики и оставив только базовое наблюдение за данными.
 
 <img width="1230" height="883" alt="image" src="https://github.com/user-attachments/assets/b5647f69-cac1-4cf4-8851-b4f495744bb1" />
 
