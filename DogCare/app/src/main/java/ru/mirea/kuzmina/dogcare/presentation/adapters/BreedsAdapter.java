@@ -3,9 +3,12 @@ package ru.mirea.kuzmina.dogcare.presentation.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import ru.mirea.kuzmina.domain.models.Dog;
 import ru.mirea.kuzmina.dogcare.R;
@@ -55,21 +58,33 @@ public class BreedsAdapter extends RecyclerView.Adapter<BreedsAdapter.BreedViewH
         private TextView nameTextView;
         private TextView descriptionTextView;
         private TextView sizeActivityTextView;
+        private ImageView breedImageView;
 
         public BreedViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.breedName);
             descriptionTextView = itemView.findViewById(R.id.breedDescription);
             sizeActivityTextView = itemView.findViewById(R.id.breedSizeActivity);
+            breedImageView = itemView.findViewById(R.id.breedImage);
         }
-
         public void bind(Dog breed) {
             nameTextView.setText(breed.getName());
             descriptionTextView.setText(breed.getDescription());
 
             String sizeActivity = breed.getSize() + " | " + breed.getActivityLevel();
             sizeActivityTextView.setText(sizeActivity);
-        }
 
+            if (breed.getImageUrl() != null && !breed.getImageUrl().isEmpty()) {
+                Picasso.get()
+                        .load(breed.getImageUrl())
+                        .placeholder(R.drawable.placeholder_dog)
+                        .error(R.drawable.error_dog)
+                        .resize(120, 120)
+                        .centerCrop()
+                        .into(breedImageView);
+            } else {
+                breedImageView.setImageResource(R.drawable.placeholder_dog);
+            }
+        }
     }
 }

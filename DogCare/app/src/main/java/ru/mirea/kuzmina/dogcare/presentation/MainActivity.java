@@ -7,7 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -18,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView breedsRecyclerView;
     private EditText searchEditText;
+    private ProgressBar loadingProgressBar;
+    private TextView errorTextView;
+    private TextView emptyTextView;
+
     private BreedsAdapter breedsAdapter;
     private MainViewModel mainViewModel;
 
@@ -35,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         breedsRecyclerView = findViewById(R.id.breedsRecyclerView);
         searchEditText = findViewById(R.id.searchEditText);
+        loadingProgressBar = findViewById(R.id.loadingProgressBar);
+        errorTextView = findViewById(R.id.errorTextView);
+        emptyTextView = findViewById(R.id.emptyTextView);
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
@@ -43,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
+
+        errorTextView.setOnClickListener(v -> mainViewModel.retryLoading());
     }
 
     private void setupViewModel() {
@@ -53,12 +66,41 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.getBreeds().observe(this, dogs -> {
             if (dogs != null) {
                 breedsAdapter.updateBreeds(dogs);
+                if (dogs.isEmpty()) {
+                    emptyTextView.setVisibility(View.VISIBLE);
+                    breedsRecyclerView.setVisibility(View.GONE);
+                } else {
+                    emptyTextView.setVisibility(View.GONE);
+                    breedsRecyclerView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        mainViewModel.getErrorMessage().observe(this, error -> {
+            if (error != null) {
+                errorTextView.setText(error);
+                errorTextView.setVisibility(View.VISIBLE);
+                breedsRecyclerView.setVisibility(View.GONE);
+                emptyTextView.setVisibility(View.GONE);
+                Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+            } else {
+                errorTextView.setVisibility(View.GONE);
+            }
+        });
+
+        mainViewModel.getIsLoading().observe(this, isLoading -> {
+            loadingProgressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            if (isLoading) {
+                breedsRecyclerView.setVisibility(View.GONE);
+                errorTextView.setVisibility(View.GONE);
+                emptyTextView.setVisibility(View.GONE);
             }
         });
     }
 
     private void setupRecyclerView() {
         breedsAdapter = new BreedsAdapter(new ArrayList<>(), breed -> {
+            Toast.makeText(this, "Выбрана: " + breed.getName(), Toast.LENGTH_SHORT).show();
         });
 
         breedsRecyclerView.setLayoutManager(new LinearLayoutManager(this));

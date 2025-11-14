@@ -5,7 +5,13 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="#FFFFFF">
-
+    <ImageView
+        android:id="@+id/breedImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/placeholder_dog" />
     <!-- Название породы -->
     <TextView
         android:id="@+id/breedName"

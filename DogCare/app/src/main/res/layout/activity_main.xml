@@ -16,8 +16,7 @@
         android:textStyle="bold"
         android:gravity="center"
         android:padding="16dp"
-        android:background="#FFFFFF"
-        android:elevation="4dp" />
+        android:background="#FFFFFF" />
 
     <!-- Поиск -->
     <EditText
@@ -26,10 +25,47 @@
         android:layout_height="wrap_content"
         android:hint="Поиск пород..."
         android:inputType="text"
-        android:imeOptions="actionDone"
         android:padding="12dp"
         android:layout_margin="16dp"
         android:background="@drawable/edittext_background" />
+
+    <!-- Прогресс бар загрузки -->
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:visibility="gone" />
+
+    <!-- Сообщение об ошибке -->
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Ошибка загрузки. Нажмите для повторной попытки"
+        android:textColor="#F44336"
+        android:background="@drawable/edittext_background"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Сообщение о пустом списке -->
+    <TextView
+        android:id="@+id/emptyTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Нет данных для отображения"
+        android:background="@drawable/edittext_background"
+        android:visibility="gone" />
 
     <!-- Список пород -->
     <androidx.recyclerview.widget.RecyclerView
@@ -39,6 +75,7 @@
         android:layout_weight="1"
         android:padding="8dp"
         tools:listitem="@layout/item_breed" />
+
     <Button
         android:id="@+id/refreshButton"
         android:layout_width="wrap_content"
@@ -46,6 +83,7 @@
         android:text="Обновить"
         android:layout_gravity="end"
         android:layout_margin="8dp" />
+
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
