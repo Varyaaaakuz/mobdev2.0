@@ -10,7 +10,8 @@ public class SignUpUseCase {
         this.authRepository = authRepository;
     }
 
-    public User execute(String email, String password) throws Exception {
-        return authRepository.signUp(email, password);
+    // Обновляем метод для приема имени
+    public User execute(String email, String password, String name) throws Exception {
+        return authRepository.signUp(email, password, name);
     }
 }

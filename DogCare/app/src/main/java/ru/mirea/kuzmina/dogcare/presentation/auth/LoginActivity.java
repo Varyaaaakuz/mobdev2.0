@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import ru.mirea.kuzmina.data.local.AppDatabase;
 import ru.mirea.kuzmina.data.repository.AuthRepositoryImpl;
@@ -27,11 +28,11 @@ public class LoginActivity extends AppCompatActivity {
     private EditText nameEditText;
     private Button loginButton;
     private Button registerButton;
-    private TextView registerTitle;
-    private TextView loginLink;
 
+    private AuthRepositoryImpl authRepository;
     private SignInUseCase signInUseCase;
     private SignUpUseCase signUpUseCase;
+    private UserPreferences userPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 
         initViews();
         setupDependencies();
-
-        // Проверяем если пользователь уже авторизован
-        // checkCurrentUser();
+        checkCurrentUser();
     }
 
     private void initViews() {
@@ -51,20 +50,6 @@ public class LoginActivity extends AppCompatActivity {
         nameEditText = findViewById(R.id.nameEditText);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
-        registerTitle = findViewById(R.id.registerTitle);
-        loginLink = findViewById(R.id.loginLink);
-        showRegistrationForm();
-
-        loginLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (registerTitle.getText().toString().equals("Создайте новый аккаунт")) {
-                    showLoginForm();
-                } else {
-                    showRegistrationForm();
-                }
-            }
-        });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,29 +66,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void showRegistrationForm() {
-        registerTitle.setText("Создайте новый аккаунт");
-        nameEditText.setVisibility(View.VISIBLE);
-        registerButton.setVisibility(View.VISIBLE);
-        loginButton.setVisibility(View.GONE);
-        loginLink.setText("Уже есть аккаунт? Войдите");
-    }
-
-    private void showLoginForm() {
-        registerTitle.setText("Войдите в свой аккаунт");
-        nameEditText.setVisibility(View.GONE);
-        registerButton.setVisibility(View.GONE);
-        loginButton.setVisibility(View.VISIBLE);
-        loginLink.setText("Нет аккаунта? Зарегистрируйтесь");
-    }
-
     private void setupDependencies() {
         try {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-            UserPreferences userPreferences = new UserPreferences(this);
+            userPreferences = new UserPreferences(this);
             AppDatabase appDatabase = AppDatabase.getInstance(this);
 
-            AuthRepositoryImpl authRepository = new AuthRepositoryImpl(firebaseAuth, userPreferences, appDatabase);
+            authRepository = new AuthRepositoryImpl(firebaseAuth, userPreferences, appDatabase);
             signInUseCase = new SignInUseCase(authRepository);
             signUpUseCase = new SignUpUseCase(authRepository);
         } catch (Exception e) {
@@ -116,20 +85,38 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    FirebaseAuth auth = FirebaseAuth.getInstance();
-                    if (auth.getCurrentUser() != null) {
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+                    if (currentUser != null) {
+                        String userName = currentUser.getDisplayName();
+                        if (userName == null || userName.isEmpty()) {
+                            userName = userPreferences.getUserName();
+                        }
+                        if (userName == null || userName.isEmpty()) {
+                            userName = extractNameFromEmail(currentUser.getEmail());
+                        }
+
+                        User user = new User(currentUser.getUid(), userName, currentUser.getEmail());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                goToMainActivity();
+                                goToMainActivity(user);
                             }
                         });
                     }
                 } catch (Exception e) {
-
                 }
             }
         }).start();
+    }
+
+    private String extractNameFromEmail(String email) {
+        if (email != null && email.contains("@")) {
+            String namePart = email.split("@")[0];
+            return namePart.substring(0, 1).toUpperCase() + namePart.substring(1);
+        }
+        return "Пользователь";
     }
 
     private void loginUser() {
@@ -152,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Toast.makeText(LoginActivity.this, "Вход выполнен успешно!", Toast.LENGTH_SHORT).show();
-                            goToMainActivity();
+                            goToMainActivity(user);
                         }
                     });
                 } catch (Exception e) {
@@ -172,9 +159,10 @@ public class LoginActivity extends AppCompatActivity {
     private void registerUser() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
+        String name = nameEditText.getText().toString().trim();
 
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Пожалуйста, введите email и пароль", Toast.LENGTH_SHORT).show();
+        if (email.isEmpty() || password.isEmpty() || name.isEmpty()) {
+            Toast.makeText(this, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -182,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Пароль должен содержать минимум 6 символов", Toast.LENGTH_SHORT).show();
             return;
         }
+
         loginButton.setEnabled(false);
         registerButton.setEnabled(false);
 
@@ -189,12 +178,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    User user = signUpUseCase.execute(email, password);
+                    User user = signUpUseCase.execute(email, password, name);
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(LoginActivity.this, "Регистрация выполнена успешно!", Toast.LENGTH_SHORT).show();
-                            goToMainActivity();
+                            goToMainActivity(user);
                         }
                     });
                 } catch (Exception e) {
@@ -210,9 +200,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         }).start();
     }
-
-    private void goToMainActivity() {
+    private void goToMainActivity(User user) {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("user_id", user.getId());
+        intent.putExtra("user_name", user.getName());
+        intent.putExtra("user_email", user.getEmail());
         startActivity(intent);
         finish();
     }

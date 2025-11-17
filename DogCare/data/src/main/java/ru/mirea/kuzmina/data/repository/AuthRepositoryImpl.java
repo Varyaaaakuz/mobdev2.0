@@ -21,6 +21,7 @@ public class AuthRepositoryImpl implements AuthRepository {
         this.userPreferences = userPreferences;
         this.appDatabase = appDatabase;
     }
+
     @Override
     public User signIn(String email, String password) throws Exception {
         try {
@@ -32,11 +33,21 @@ public class AuthRepositoryImpl implements AuthRepository {
             if (firebaseUser == null) {
                 throw new Exception("Sign in failed");
             }
+
+            // Получаем имя пользователя
+            String userName = firebaseUser.getDisplayName();
+            if (userName == null || userName.isEmpty()) {
+                userName = extractNameFromEmail(email);
+            }
+
             // сохраняем в SharedPreferences
             userPreferences.saveUserEmail(email);
+            userPreferences.saveUserName(userName);
+
             // сохраняем в Room
-            User user = mapToDomain(firebaseUser);
+            User user = new User(firebaseUser.getUid(), userName, email);
             saveUserToRoom(user);
+
             return user;
         } catch (Exception e) {
             throw new Exception("Sign in failed: " + e.getMessage());
@@ -44,7 +55,7 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
-    public User signUp(String email, String password) throws Exception {
+    public User signUp(String email, String password, String name) throws Exception {
         try {
             Task<AuthResult> authResultTask = firebaseAuth.createUserWithEmailAndPassword(email, password);
             // ждем завершения задачи
@@ -53,10 +64,13 @@ public class AuthRepositoryImpl implements AuthRepository {
             if (firebaseUser == null) {
                 throw new Exception("Sign up failed");
             }
+
             // сохраняем в SharedPreferences
             userPreferences.saveUserEmail(email);
+            userPreferences.saveUserName(name);
+
             // сохраняем в Room
-            User user = mapToDomain(firebaseUser);
+            User user = new User(firebaseUser.getUid(), name, email);
             saveUserToRoom(user);
 
             return user;
@@ -79,15 +93,25 @@ public class AuthRepositoryImpl implements AuthRepository {
     @Override
     public User getCurrentUser() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        return firebaseUser != null ? mapToDomain(firebaseUser) : null;
+        if (firebaseUser != null) {
+            String userName = firebaseUser.getDisplayName();
+            if (userName == null || userName.isEmpty()) {
+                userName = userPreferences.getUserName();
+                if (userName == null || userName.isEmpty()) {
+                    userName = extractNameFromEmail(firebaseUser.getEmail());
+                }
+            }
+            return new User(firebaseUser.getUid(), userName, firebaseUser.getEmail());
+        }
+        return null;
     }
 
-    private User mapToDomain(FirebaseUser firebaseUser) {
-        return new User(
-                firebaseUser.getUid(),
-                firebaseUser.getEmail() != null ? firebaseUser.getEmail() : "",
-                firebaseUser.getDisplayName()
-        );
+    private String extractNameFromEmail(String email) {
+        if (email != null && email.contains("@")) {
+            String namePart = email.split("@")[0];
+            return namePart.substring(0, 1).toUpperCase() + namePart.substring(1);
+        }
+        return "Пользователь";
     }
 
     private void saveUserToRoom(User user) {

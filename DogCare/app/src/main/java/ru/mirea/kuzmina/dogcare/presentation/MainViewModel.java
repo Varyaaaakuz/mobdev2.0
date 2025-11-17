@@ -3,10 +3,10 @@ package ru.mirea.kuzmina.dogcare.presentation;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import android.util.Log;
 
 import ru.mirea.kuzmina.domain.models.Dog;
+import ru.mirea.kuzmina.domain.models.User;
 import ru.mirea.kuzmina.domain.repository.BreedsRepository;
 import ru.mirea.kuzmina.data.repository.BreedsRepositoryImpl;
 
@@ -19,6 +19,8 @@ public class MainViewModel extends ViewModel {
     private final MutableLiveData<List<Dog>> breeds = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    private final MutableLiveData<Dog> selectedBreed = new MutableLiveData<>();
+    private final MutableLiveData<User> currentUser = new MutableLiveData<>();
 
     private final BreedsRepository breedsRepository;
     private final ExecutorService executorService;
@@ -42,6 +44,18 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
+    }
+
+    public LiveData<Dog> getSelectedBreed() {
+        return selectedBreed;
+    }
+
+    public LiveData<User> getCurrentUser() {
+        return currentUser;
+    }
+    public void setCurrentUser(User user) {
+        currentUser.setValue(user);
+        Log.d("MainViewModel", "User set: " + user.getName() + ", " + user.getEmail());
     }
 
     public void loadBreedsFromNetwork() {
@@ -93,6 +107,21 @@ public class MainViewModel extends ViewModel {
     public void retryLoading() {
         loadBreedsFromNetwork();
     }
+
+    public void selectBreed(Dog breed) {
+        selectedBreed.setValue(breed);
+        Log.d("MainViewModel", "Breed selected: " + breed.getName());
+    }
+
+    public void clearSelectedBreed() {
+        selectedBreed.setValue(null);
+    }
+
+    public void logout() {
+        currentUser.setValue(null);
+        Log.d("MainViewModel", "User logged out");
+    }
+
     private List<Dog> createFallbackBreeds() {
         List<Dog> fallbackList = new ArrayList<>();
         fallbackList.add(new Dog("1", "Лабрадор", "Дружелюбная семейная собака",

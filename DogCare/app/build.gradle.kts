@@ -58,4 +58,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
     // Picasso
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("androidx.fragment:fragment:1.8.5")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }

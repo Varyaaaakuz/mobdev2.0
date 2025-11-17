@@ -12,7 +12,7 @@
         android:layout_marginEnd="16dp"
         android:scaleType="centerCrop"
         android:background="@drawable/placeholder_dog" />
-    <!-- Название породы -->
+
     <TextView
         android:id="@+id/breedName"
         android:layout_width="match_parent"
@@ -22,7 +22,6 @@
         android:textStyle="bold"
         android:textColor="#000000" />
 
-    <!-- Описание породы -->
     <TextView
         android:id="@+id/breedDescription"
         android:layout_width="match_parent"
@@ -32,7 +31,6 @@
         android:layout_marginTop="4dp"
         android:textColor="#666666" />
 
-    <!-- Размер и активность в одной строке с разделителем -->
     <TextView
         android:id="@+id/breedSizeActivity"
         android:layout_width="match_parent"
@@ -42,7 +40,6 @@
         android:layout_marginTop="4dp"
         android:textColor="#666666" />
 
-    <!-- Разделитель -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

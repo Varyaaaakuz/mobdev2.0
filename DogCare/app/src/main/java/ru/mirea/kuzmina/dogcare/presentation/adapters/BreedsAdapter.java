@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import ru.mirea.kuzmina.domain.models.Dog;
 import ru.mirea.kuzmina.dogcare.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BreedsAdapter extends RecyclerView.Adapter<BreedsAdapter.BreedViewHolder> {
@@ -54,6 +55,11 @@ public class BreedsAdapter extends RecyclerView.Adapter<BreedsAdapter.BreedViewH
         notifyDataSetChanged();
     }
 
+    public void submitList(List<Dog> newBreeds) {
+        this.breeds = newBreeds != null ? newBreeds : new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
     static class BreedViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
         private TextView descriptionTextView;
@@ -67,6 +73,7 @@ public class BreedsAdapter extends RecyclerView.Adapter<BreedsAdapter.BreedViewH
             sizeActivityTextView = itemView.findViewById(R.id.breedSizeActivity);
             breedImageView = itemView.findViewById(R.id.breedImage);
         }
+
         public void bind(Dog breed) {
             nameTextView.setText(breed.getName());
             descriptionTextView.setText(breed.getDescription());

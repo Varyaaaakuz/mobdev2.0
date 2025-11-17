@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:padding="32dp">
 
-    <!-- Заголовок -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +17,6 @@
         android:layout_marginTop="60dp"
         android:layout_marginBottom="40dp" />
 
-    <!-- Подзаголовок для регистрации -->
     <TextView
         android:id="@+id/registerTitle"
         android:layout_width="match_parent"
@@ -30,7 +28,6 @@
         android:textColor="@color/black"
         android:layout_marginBottom="30dp" />
 
-    <!-- Поле Имя (видимо только при регистрации) -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,7 +46,6 @@
         android:padding="16dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Поле Email -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,7 +65,6 @@
         android:padding="16dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Поле Пароль -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,7 +84,6 @@
         android:padding="16dp"
         android:layout_marginBottom="30dp" />
 
-    <!-- Кнопка Регистрация -->
     <Button
         android:id="@+id/registerButton"
         android:layout_width="match_parent"
@@ -102,7 +96,6 @@
         android:padding="16dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Ссылка на вход -->
     <TextView
         android:id="@+id/loginLink"
         android:layout_width="match_parent"
@@ -112,7 +105,7 @@
         android:gravity="center"
         android:textColor="@color/light_blue"
         android:padding="8dp" />
-    <!-- Кнопка Входа (изначально скрыта) -->
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"

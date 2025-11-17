@@ -49,5 +49,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(project(":domain"))
     implementation(project(":data"))
-
+    implementation("androidx.fragment:fragment-ktx:1.8.5")
 }

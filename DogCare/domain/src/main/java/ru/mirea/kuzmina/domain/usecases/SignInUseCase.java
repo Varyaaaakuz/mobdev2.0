@@ -13,4 +13,7 @@ public class SignInUseCase {
     public User execute(String email, String password) throws Exception {
         return authRepository.signIn(email, password);
     }
+    public User getCurrentUser() {
+        return authRepository.getCurrentUser();
+    }
 }
