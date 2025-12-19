@@ -24,15 +24,15 @@
 
 <img width="389" height="799" alt="image" src="https://github.com/user-attachments/assets/535e82cc-bb66-4fe6-9f2c-9caaaa0e35fb" /> <img width="394" height="803" alt="image" src="https://github.com/user-attachments/assets/870145f1-955f-45ee-ab19-26ffb69cbfdb" /> <img width="368" height="798" alt="image" src="https://github.com/user-attachments/assets/c41798e6-6edd-4022-95f1-bdb882984390" />
 
-Создан отдельный модуль NavigationDrawerApp с аналогичными зависимостями. Особенностью данного модуля является необходимость использования DrawerLayout в качестве корневого элемента макета, который обеспечивает функциональность выдвижной панели навигации
+Создан отдельный модуль NavigationDrawer с аналогичными зависимостями. Особенностью данного модуля является необходимость использования DrawerLayout в качестве корневого элемента макета, который обеспечивает функциональность выдвижной панели навигации
 
 Создан граф навигации, аналогичный первому модулю, но с учетом особенностей Navigation Drawer. Граф включает те же три пункта назначения, но структура меню и способ взаимодействия с пользователем отличаются.
 
-Создан сложный макет, состоящий из DrawerLayout, содержащего основной контент и NavigationView. Основной контент включает Toolbar с кнопкой "гамбургер" и контейнер для фрагментов. NavigationView настроен с атрибутом app:headerLayout для отображения заголовка шторки.
+Далее был создан макет, состоящий из DrawerLayout, содержащего основной контент и NavigationView. Основной контент включает Toolbar с кнопкой и контейнер для фрагментов. NavigationView настроен с атрибутом app:headerLayout для отображения заголовка шторки.
 
 <img width="996" height="818" alt="image" src="https://github.com/user-attachments/assets/ee407970-21cc-4151-8674-2d51fa30c2b5" />
 
-Была разработана активность MainActivity, которая служит центральным узлом управления навигацией в приложении с использованием Navigation Drawer. Активность реализует паттерн single-activity architecture, где все переходы между экранами обрабатываются через Navigation Component, а боковая шторка навигации обеспечивает доступ к основным разделам приложения
+Была создана активность MainActivity. Активность реализует паттерн single-activity architecture, где все переходы между экранами обрабатываются через Navigation Component, а боковая шторка навигации обеспечивает доступ к основным разделам приложения
 
 <img width="1163" height="900" alt="image" src="https://github.com/user-attachments/assets/cf7a7d8d-6eae-4c0c-a0e5-70a96950db26" />
 
