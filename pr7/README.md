@@ -21,6 +21,7 @@
 <img width="1155" height="724" alt="image" src="https://github.com/user-attachments/assets/6af12696-48cc-4673-86b0-b56495fc13b7" />
 
 Результат работы:
+
 <img width="389" height="799" alt="image" src="https://github.com/user-attachments/assets/535e82cc-bb66-4fe6-9f2c-9caaaa0e35fb" /> <img width="394" height="803" alt="image" src="https://github.com/user-attachments/assets/870145f1-955f-45ee-ab19-26ffb69cbfdb" /> <img width="368" height="798" alt="image" src="https://github.com/user-attachments/assets/c41798e6-6edd-4022-95f1-bdb882984390" />
 
 Создан отдельный модуль NavigationDrawerApp с аналогичными зависимостями. Особенностью данного модуля является необходимость использования DrawerLayout в качестве корневого элемента макета, который обеспечивает функциональность выдвижной панели навигации
@@ -36,6 +37,7 @@
 <img width="1163" height="900" alt="image" src="https://github.com/user-attachments/assets/cf7a7d8d-6eae-4c0c-a0e5-70a96950db26" />
 
 Результат работы:
+
 <img width="374" height="790" alt="image" src="https://github.com/user-attachments/assets/95e8d22b-37cd-4c23-a465-195843160396" /> <img width="365" height="805" alt="image" src="https://github.com/user-attachments/assets/28e3d5c4-4a41-433b-ab8b-b27a3ea5684d" /> <img width="371" height="801" alt="image" src="https://github.com/user-attachments/assets/1bf2f1b2-35ff-4c0b-a5b3-a9533dabfb1c" /> <img width="387" height="799" alt="image" src="https://github.com/user-attachments/assets/11a606d4-df17-449b-a5fb-159cee252d25" />
 
 BottomNavigationApp представляет собой оптимальное решение для приложений с небольшим количеством основных экранов, требующих быстрого переключения между ними. NavigationDrawerApp подходит для приложений с более сложной структурой, где навигационные элементы могут быть скрыты до момента необходимости.
