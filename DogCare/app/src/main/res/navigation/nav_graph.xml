@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="ru.mirea.kuzmina.dogcare.presentation.HomeFragment"
+        android:label="Каталог"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_home_to_breedDetails"
+            app:destination="@id/navigation_breedDetails" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_breedDetails"
+        android:name="ru.mirea.kuzmina.dogcare.presentation.fragments.BreedDetailsFragment"
+        android:label="Детали породы"
+        tools:layout="@layout/fragment_breed_details">
+
+        <!-- Действие для перехода к советам по уходу -->
+        <action
+            android:id="@+id/action_breedDetails_to_careAdvice"
+            app:destination="@id/navigation_careAdvice" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_careAdvice"
+        android:name="ru.mirea.kuzmina.dogcare.presentation.fragments.CareAdviceFragment"
+        android:label="Советы по уходу"
+        tools:layout="@layout/fragment_care_advice" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="ru.mirea.kuzmina.dogcare.presentation.fragments.SearchFragment"
+        android:label="Поиск"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_identify"
+        android:name="ru.mirea.kuzmina.dogcare.presentation.fragments.IdentifyFragment"
+        android:label="Определить"
+        tools:layout="@layout/fragment_identify" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="ru.mirea.kuzmina.dogcare.presentation.fragments.ProfileFragment"
+        android:label="Профиль"
+        tools:layout="@layout/fragment_profile" />
+
+</navigation>

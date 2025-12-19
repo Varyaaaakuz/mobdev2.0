@@ -6,35 +6,32 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 
 import ru.mirea.kuzmina.domain.models.Dog;
 import ru.mirea.kuzmina.dogcare.R;
+import ru.mirea.kuzmina.dogcare.databinding.FragmentBreedDetailsBinding;
 import ru.mirea.kuzmina.dogcare.presentation.MainViewModel;
 
 public class BreedDetailsFragment extends Fragment {
-
     private MainViewModel viewModel;
-    private TextView tvBreedName, tvBreedDescription, tvCareAdvice;
-    private ImageView ivBreedImage;
-    private LinearLayout layoutCharacteristics;
-    private Button btnBack;
-    private Button btnCareAdvice;
-
+    private FragmentBreedDetailsBinding binding;
+    private NavController navController;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_breed_details, container, false);
+
+        binding = FragmentBreedDetailsBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -42,19 +39,10 @@ public class BreedDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        initViews(view);
+        navController = Navigation.findNavController(view);
+
         setupObservers();
         setupClickListeners();
-    }
-
-    private void initViews(View view) {
-        tvBreedName = view.findViewById(R.id.tv_breed_name);
-        tvBreedDescription = view.findViewById(R.id.tv_breed_description);
-        tvCareAdvice = view.findViewById(R.id.tv_care_advice);
-        ivBreedImage = view.findViewById(R.id.iv_breed_image);
-        layoutCharacteristics = view.findViewById(R.id.layout_characteristics);
-        btnBack = view.findViewById(R.id.btn_back);
-        btnCareAdvice = view.findViewById(R.id.btn_care_advice);
     }
 
     private void setupObservers() {
@@ -66,20 +54,24 @@ public class BreedDetailsFragment extends Fragment {
     }
 
     private void setupClickListeners() {
-        btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
-        btnCareAdvice.setOnClickListener(v -> navigateToCareAdvice());
+        binding.btnBack.setOnClickListener(v -> {
+            navController.navigateUp();
+        });
+
+        binding.btnCareAdvice.setOnClickListener(v -> navigateToCareAdvice());
     }
 
     private void displayBreedDetails(Dog breed) {
-        tvBreedName.setText(breed.getName());
-        tvBreedDescription.setText(breed.getDescription());
+        binding.tvBreedName.setText(breed.getName());
+        binding.tvBreedDescription.setText(breed.getDescription());
 
         if (breed.getImageUrl() != null && !breed.getImageUrl().isEmpty()) {
             Glide.with(this)
                     .load(breed.getImageUrl())
                     .placeholder(R.drawable.rounded_corners)
-                    .into(ivBreedImage);
+                    .into(binding.ivBreedImage);
         }
+        binding.layoutCharacteristics.removeAllViews();
 
         addCharacteristic("Размер", breed.getSize() != null ? breed.getSize() : "Средний");
         addCharacteristic("Активность", breed.getActivityLevel() != null ? breed.getActivityLevel() : "Высокая");
@@ -87,12 +79,11 @@ public class BreedDetailsFragment extends Fragment {
         addCharacteristic("Дрессировка", "Легкая");
         addCharacteristic("Линька", "Умеренная");
         addCharacteristic("Охранные качества", "Средние");
-
     }
 
     private void addCharacteristic(String title, String value) {
         View characteristicView = LayoutInflater.from(requireContext())
-                .inflate(R.layout.item_characteristic, layoutCharacteristics, false);
+                .inflate(R.layout.item_characteristic, binding.layoutCharacteristics, false);
 
         TextView tvTitle = characteristicView.findViewById(R.id.tv_title);
         TextView tvValue = characteristicView.findViewById(R.id.tv_value);
@@ -100,14 +91,16 @@ public class BreedDetailsFragment extends Fragment {
         tvTitle.setText(title);
         tvValue.setText(value);
 
-        layoutCharacteristics.addView(characteristicView);
+        binding.layoutCharacteristics.addView(characteristicView);
     }
 
     private void navigateToCareAdvice() {
-        CareAdviceFragment fragment = new CareAdviceFragment();
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack("care_advice")
-                .commit();
+        navController.navigate(R.id.action_breedDetails_to_careAdvice);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

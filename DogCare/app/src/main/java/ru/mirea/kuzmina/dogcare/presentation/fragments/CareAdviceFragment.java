@@ -10,23 +10,26 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import ru.mirea.kuzmina.domain.models.Dog;
 import ru.mirea.kuzmina.dogcare.R;
+import ru.mirea.kuzmina.dogcare.databinding.FragmentCareAdviceBinding;
 import ru.mirea.kuzmina.dogcare.presentation.MainViewModel;
 
 public class CareAdviceFragment extends Fragment {
-
     private MainViewModel viewModel;
-    private TextView tvBreedName, tvCareAdvice;
-    private Button btnBack;
+    private FragmentCareAdviceBinding binding;
+    private NavController navController;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_care_advice, container, false);
+        binding = FragmentCareAdviceBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -34,15 +37,10 @@ public class CareAdviceFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        initViews(view);
+        navController = Navigation.findNavController(view);
+
         setupObservers();
         setupClickListeners();
-    }
-
-    private void initViews(View view) {
-        tvBreedName = view.findViewById(R.id.tv_breed_name);
-        tvCareAdvice = view.findViewById(R.id.tv_care_advice);
-        btnBack = view.findViewById(R.id.btn_back);
     }
 
     private void setupObservers() {
@@ -54,14 +52,16 @@ public class CareAdviceFragment extends Fragment {
     }
 
     private void setupClickListeners() {
-        btnBack.setOnClickListener(v -> requireActivity().onBackPressed());
+        binding.btnBack.setOnClickListener(v -> {
+            navController.navigateUp();
+        });
     }
 
     private void displayCareAdvice(Dog breed) {
-        tvBreedName.setText(breed.getName());
+        binding.tvBreedName.setText(breed.getName());
 
         String careAdvice = generateDetailedCareAdvice(breed);
-        tvCareAdvice.setText(careAdvice);
+        binding.tvCareAdvice.setText(careAdvice);
     }
 
     private String generateDetailedCareAdvice(Dog breed) {
@@ -112,5 +112,11 @@ public class CareAdviceFragment extends Fragment {
         advice.append("• Социализация с другими собаками\n\n");
 
         return advice.toString();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

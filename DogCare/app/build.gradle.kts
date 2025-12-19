@@ -30,6 +30,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -60,4 +63,7 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation ("androidx.fragment:fragment:1.8.5")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("androidx.navigation:navigation-fragment:2.7.7")
+    implementation ("androidx.navigation:navigation-ui:2.7.7")
+    implementation ("com.google.android.material:material:1.12.0")
 }
