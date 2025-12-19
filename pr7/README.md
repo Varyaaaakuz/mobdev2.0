@@ -2,7 +2,7 @@
 
 <img width="804" height="309" alt="image" src="https://github.com/user-attachments/assets/1d73afd4-3354-42b8-a399-645b4d5a00e1" />
 
-Созданы три фрагмента: HomeFragment, SearchFragment и ProfileFragment. Каждый фрагмент содержит простой макет с текстовым представлением и реализован с использованием View Binding. Для каждого фрагмента созданы соответствующие классы Binding, автоматически сгенерированные системой на основе XML-макетов.
+Созданы три фрагмента: HomeFragment, SearchFragment и ProfileFragment. Каждый фрагмент содержит простой макет с текстовым представлением и реализован с использованием View Binding. Для каждого фрагмента созданы соответствующие классы Binding.
 
 <img width="1002" height="794" alt="image" src="https://github.com/user-attachments/assets/86bc5b54-9caf-4727-a134-7ed0fc7e46f4" />
 
